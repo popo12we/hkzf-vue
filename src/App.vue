@@ -1,9 +1,16 @@
 <template>
   <div id="app">
-    hello world
   </div>
 </template>
+<script>
+export default {
+  data () {
+    return {
+      checked: true
+    }
+  }
+}
+</script>
 
 <style lang="less">
-
 </style>
