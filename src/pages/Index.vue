@@ -5,7 +5,7 @@
       <swiper :options="swiperOption">
         <swiper-slide v-for="item in swiperList" :key="item.id">
           <img
-            :src='"http://localhost:8080"+`${item.imgSrc}`'
+            :src="'http://localhost:8080'+`${item.imgSrc}`"
             alt
             style="width: 100%; vertical-align: top;"
           />
@@ -53,40 +53,17 @@
         <span>更多</span>
       </div>
       <div class="rent-group-content">
-        <div class="rent-group-50-content">
+        <div
+          :class="{'rent-group-50-content':true,'rr':index%2==0,'rl':index%2!=0}"
+          v-for="(item,index) in groupList"
+          :key="item.id"
+        >
           <div class="rent-group-50-content-left">
-            <h4>家住回龙观</h4>
-            <p>归属的感觉</p>
+            <h4>{{item.title}}</h4>
+            <p>{{item.desc}}</p>
           </div>
           <div class="rent-group-50-content-right">
-            <img src="http://localhost:8080/img/groups/1.png" alt />
-          </div>
-        </div>
-        <div class="rent-group-50-content">
-          <div class="rent-group-50-content-left">
-            <h4>家住回龙观</h4>
-            <p>归属的感觉</p>
-          </div>
-          <div class="rent-group-50-content-right">
-            <img src="http://localhost:8080/img/groups/1.png" alt />
-          </div>
-        </div>
-        <div class="rent-group-50-content">
-          <div class="rent-group-50-content-left">
-            <h4>家住回龙观</h4>
-            <p>归属的感觉</p>
-          </div>
-          <div class="rent-group-50-content-right">
-            <img src="http://localhost:8080/img/groups/1.png" alt />
-          </div>
-        </div>
-        <div class="rent-group-50-content">
-          <div class="rent-group-50-content-left">
-            <h4>家住回龙观</h4>
-            <p>归属的感觉</p>
-          </div>
-          <div class="rent-group-50-content-right">
-            <img src="http://localhost:8080/img/groups/1.png" alt />
+            <img :src="'http://localhost:8080'+`${item.imgSrc}`" alt />
           </div>
         </div>
       </div>
@@ -100,21 +77,32 @@ export default {
     return {
       swiperOption: {
         pagination: {
-          el: '.swiper-pagination'
+          el: '.swiper-pagination',
+          loop: true,
+          delay: 3000
         }
       },
-      swiperList: []
+      swiperList: [],
+      groupList: []
     }
   },
   created () {
     this.getSwiperList()
+    this.getGroupList()
   },
   methods: {
+    // 轮播图
     async getSwiperList () {
-      let res = await this.$axios.get('/home/swiper')
-      let { body, status } = res
+      let { body, status } = await this.$axios.get('/home/swiper')
       if (status === 200) {
         this.swiperList = body
+      }
+    },
+    // 租房小组
+    async getGroupList () {
+      let { body, status } = await this.$axios.get('/home/groups')
+      if (status === 200) {
+        this.groupList = body
       }
     }
   }
@@ -167,12 +155,23 @@ export default {
       }
     }
     .rent-group-content {
-      margin: 0 15px;
+      overflow: hidden;
+      margin:15px;
+      .rr {
+        margin-right: 1%;
+      }
+      .rl {
+        margin-left: 1%;
+      }
       .rent-group-50-content {
-        width: 50%;
+        width: 49%;
         float: left;
+        height: 80px;
+        background-color: #fff;
+        margin-bottom: 10px;
         .rent-group-50-content-left {
           float: left;
+          margin-left: 10px;
           h4 {
             font-size: 13px;
             margin-top: 10px;
