@@ -1,17 +1,26 @@
 <template>
   <div class="index">
     <!-- 顶部轮播图部分 -->
-    <div class="top-swiper">
-      <swiper :options="swiperOption">
-        <swiper-slide v-for="item in swiperList" :key="item.id">
-          <img
-            :src="'http://localhost:8080'+`${item.imgSrc}`"
-            alt
-            style="width: 100%; vertical-align: top;"
-          />
-        </swiper-slide>
-        <div class="swiper-pagination" slot="pagination"></div>
-      </swiper>
+    <div class="header">
+      <div class="search">
+        <div class="cityname">上海</div>
+        <i class="iconfont icon-map"></i>
+        <div class="search-input">
+          <input type="text" />
+        </div>
+      </div>
+      <div class="top-swiper">
+        <swiper :options="swiperOption">
+          <swiper-slide v-for="item in swiperList" :key="item.id">
+            <img
+              :src="'http://localhost:8080'+`${item.imgSrc}`"
+              alt
+              style="width: 100%; vertical-align: top;"
+            />
+          </swiper-slide>
+          <div class="swiper-pagination" slot="pagination"></div>
+        </swiper>
+      </div>
     </div>
 
     <!-- 整租合租部分 -->
@@ -113,8 +122,43 @@ export default {
 .index {
   background-color: #f8f8f8;
   // 顶部轮播图
-  .top-swiper {
+  .header {
     position: relative;
+    .search {
+      position: absolute;
+      padding: 0 20px;
+      height: 30px;
+      z-index: 999;
+      width: 100%;
+      box-sizing: border-box;
+      top: 15px;
+      .cityname {
+        float: left;
+        height: 30px;
+        line-height: 30px;
+        font-size: 16px;
+        margin-right: 10px;
+      }
+      i {
+        float: right;
+        font-size: 24px;
+        color: #fff;
+        line-height: 30px;
+        margin-left: 10px;
+      }
+      .search-input {
+        overflow: hidden;
+        height: 100%;
+        input {
+          width: 100%;
+          height: 100%;
+          display: block;
+        }
+      }
+    }
+    .top-swiper {
+      position: relative;
+    }
   }
 
   // 整租合租
@@ -156,7 +200,7 @@ export default {
     }
     .rent-group-content {
       overflow: hidden;
-      margin:15px;
+      margin: 15px;
       .rr {
         margin-right: 1%;
       }
