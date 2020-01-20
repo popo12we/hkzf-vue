@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <router-view/>
+    <router-view />
     <BottomFooter></BottomFooter>
   </div>
 </template>
@@ -14,4 +14,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.home {
+  min-width: 320px;
+  max-width: 640px;
+  margin: 0 auto;
+}
 </style>
