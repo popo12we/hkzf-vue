@@ -12,16 +12,17 @@ const routes = [
       {
         path: '/home/index',
         component: () => import('@/pages/Index')
-      },
-      {
-        path: '/home/list',
-        component: () => import('@/pages/List')
       }
+
     ]
   },
   {
     path: '/map',
     component: () => import('@/pages/Map')
+  },
+  {
+    path: '/list',
+    component: () => import('@/pages/List')
   }
 ]
 const router = new VueRouter({

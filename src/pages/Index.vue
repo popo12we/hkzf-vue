@@ -3,7 +3,7 @@
     <!-- 顶部轮播图部分 -->
     <div class="header">
       <div class="search">
-        <div class="cityname" @click="goToMap">上海</div>
+        <div class="cityname" @click="goToList">上海</div>
         <i class="iconfont icon-map"></i>
         <div class="search-input">
           <input type="text" />
@@ -105,8 +105,8 @@ export default {
         this.groupList = body
       }
     },
-    goToMap () {
-      this.$router.push('/map')
+    goToList () {
+      this.$router.push('/list')
     }
   }
 }
