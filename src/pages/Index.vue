@@ -57,12 +57,55 @@
             <img src="http://localhost:8080/img/groups/1.png" alt />
           </div>
         </div>
+        <div class="rent-group-50-content">
+          <div class="rent-group-50-content-left">
+            <h4>家住回龙观</h4>
+            <p>归属的感觉</p>
+          </div>
+          <div class="rent-group-50-content-right">
+            <img src="http://localhost:8080/img/groups/1.png" alt />
+          </div>
+        </div>
+        <div class="rent-group-50-content">
+          <div class="rent-group-50-content-left">
+            <h4>家住回龙观</h4>
+            <p>归属的感觉</p>
+          </div>
+          <div class="rent-group-50-content-right">
+            <img src="http://localhost:8080/img/groups/1.png" alt />
+          </div>
+        </div>
+        <div class="rent-group-50-content">
+          <div class="rent-group-50-content-left">
+            <h4>家住回龙观</h4>
+            <p>归属的感觉</p>
+          </div>
+          <div class="rent-group-50-content-right">
+            <img src="http://localhost:8080/img/groups/1.png" alt />
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+export default {
+  data () {
+    return {
+      swiperList: []
+    }
+  },
+  created () {
+    this.getSwiperList()
+  },
+  methods: {
+    async getSwiperList () {
+      let res = await this.$axios.get('/home/swiper')
+      console.log(res)
+    }
+  }
+}
 </script>
 
 <style lang="less" scoped>
@@ -107,7 +150,32 @@
       span {
         font-size: 14px;
         float: right;
-        color:#999;
+        color: #999;
+      }
+    }
+    .rent-group-content {
+      margin: 0 15px;
+      .rent-group-50-content {
+        width: 50%;
+        float: left;
+        .rent-group-50-content-left {
+          float: left;
+          h4 {
+            font-size: 13px;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            font-weight: 700;
+          }
+          p{
+            color:#999;
+          }
+        }
+        .rent-group-50-content-right {
+          float: right;
+          img {
+            width: 55px;
+          }
+        }
       }
     }
   }
