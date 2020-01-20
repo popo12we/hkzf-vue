@@ -2,11 +2,16 @@
   <div class="index">
     <!-- 顶部轮播图部分 -->
     <div class="top-swiper">
-      <img
-        src="http://localhost:8080/img/swiper/1.png"
-        alt
-        style="width: 100%; vertical-align: top;"
-      />
+      <swiper :options="swiperOption">
+        <swiper-slide v-for="item in swiperList" :key="item.id">
+          <img
+            :src='"http://localhost:8080"+`${item.imgSrc}`'
+            alt
+            style="width: 100%; vertical-align: top;"
+          />
+        </swiper-slide>
+        <div class="swiper-pagination" slot="pagination"></div>
+      </swiper>
     </div>
 
     <!-- 整租合租部分 -->
@@ -93,6 +98,11 @@
 export default {
   data () {
     return {
+      swiperOption: {
+        pagination: {
+          el: '.swiper-pagination'
+        }
+      },
       swiperList: []
     }
   },
@@ -102,7 +112,10 @@ export default {
   methods: {
     async getSwiperList () {
       let res = await this.$axios.get('/home/swiper')
-      console.log(res)
+      let { body, status } = res
+      if (status === 200) {
+        this.swiperList = body
+      }
     }
   }
 }
@@ -166,8 +179,8 @@ export default {
             margin-bottom: 5px;
             font-weight: 700;
           }
-          p{
-            color:#999;
+          p {
+            color: #999;
           }
         }
         .rent-group-50-content-right {
