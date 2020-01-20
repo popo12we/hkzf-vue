@@ -18,6 +18,10 @@ const routes = [
         component: () => import('@/pages/List')
       }
     ]
+  },
+  {
+    path: '/map',
+    component: () => import('@/pages/Map')
   }
 ]
 const router = new VueRouter({
