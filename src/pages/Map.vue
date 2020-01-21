@@ -1,9 +1,16 @@
 <template>
-  <div id="l-map"></div>
+  <div class="map">
+    <TopHeader></TopHeader>
+    <div id="l-map"></div>
+  </div>
 </template>
 
 <script>
+import TopHeader from '../components/TopHeader'
 export default {
+  components: {
+    TopHeader
+  },
   data () {
     return {
       // 覆盖物数据
@@ -40,7 +47,6 @@ export default {
     // 判断现在到底处在哪个层级,通过判断在哪个层级知道覆盖物是什么类型的
     getTypeAndZoom () {
       const zoom = window.map.getZoom()
-      console.log(zoom)
       let nextZoom, type
       if (zoom === 11) {
         nextZoom = 13
@@ -137,6 +143,10 @@ export default {
 
     // 查询房源数据
     async getHouseData (value) {
+      const toast = this.$createToast({
+        txt: '加载中'
+      })
+      toast.show()
       let { status, body } = await this.$axios.get(
         'http://localhost:8080/area/map',
         {
@@ -149,11 +159,13 @@ export default {
       let { type, nextZoom } = this.getTypeAndZoom()
       if (status === 200) {
         this.overlays = body
+
         if (type === 'rect') {
           this.createRect(nextZoom)
         } else {
           this.createCircle(nextZoom)
         }
+        toast.hide()
       }
     }
   }
@@ -161,7 +173,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
-#l-map {
+.map {
   height: 100%;
+  #l-map {
+    padding-top:40px;
+    height: 100%;
+  }
 }
 </style>

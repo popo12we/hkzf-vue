@@ -1,23 +1,17 @@
 <template>
-  <div class="map">
-    <router-link to="/home/index">
-      <div class="choose-city">
-        <div class="choose-city-icon">
-          <i class="iconfont icon-back"></i>
-        </div>
-        <!-- 防止标题歪了。。 -->
-        <div class="choose-city-empty"></div>
-        <h1>城市选择</h1>
-      </div>
-    </router-link>
-    <cube-index-list :data="cityList" @select="selectItem">
-    </cube-index-list>
+  <div class="list">
+    <TopHeader></TopHeader>
+    <cube-index-list :data="cityList" @select="selectItem"></cube-index-list>
   </div>
 </template>
 
 <script>
+import TopHeader from '../components/TopHeader'
 import { handleLangList, hotCityList } from '../utils/Func'
 export default {
+  components: {
+    TopHeader
+  },
   data () {
     return {
       cityList: [],
@@ -87,32 +81,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.map {
+.list {
   height: 100%;
-  // 头部
-  .choose-city {
-    height: 45px;
-    background-color: #f6f5f6;
-    font-size: 20px;
-    .choose-city-icon {
-      width: 45px;
-      height: 45px;
-      float: left;
-      text-align: center;
-      line-height: 45px;
-    }
-    .choose-city-empty {
-      width: 45px;
-      height: 45px;
-      float: right;
-    }
-    h1 {
-      overflow: hidden;
-      text-align: center;
-      line-height: 45px;
-      color: #333;
-    }
-  }
   // 长列表
   /deep/ .cube-index-list-anchor {
     background-color: #fff;

@@ -14,10 +14,4 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.home {
-  height: 100%;
-  min-width: 320px;
-  max-width: 640px;
-  margin: 0 auto;
-}
 </style>
