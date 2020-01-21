@@ -10,16 +10,14 @@ export default {
       overlays: []
     }
   },
-  created () {
 
-  },
   mounted () {
     this.initMap()
     this.getHouseData()
   },
   methods: {
     // 初始化地图
-    initMap (type) {
+    initMap (nextZoom) {
       var map = new window.BMap.Map('l-map')
       window.map = map
       var myGeo = new window.BMap.Geocoder()
@@ -29,7 +27,7 @@ export default {
         cityname,
         function (point) {
           if (point) {
-            map.centerAndZoom(point, 11)
+            map.centerAndZoom(point, nextZoom)
             map.addControl(new window.BMap.NavigationControl())
             map.addControl(new window.BMap.ScaleControl())
             map.addOverlay(new window.BMap.Marker(point))
@@ -44,7 +42,7 @@ export default {
       const zoom = window.map.getZoom()
       console.log(zoom)
       let nextZoom, type
-      if (zoom === 3) {
+      if (zoom === 11) {
         nextZoom = 13
         type = 'circle'
       } else if (zoom === 13) {
@@ -93,6 +91,45 @@ export default {
         })
         // 把文字覆盖物添加到地图上
         window.map.addOverlay(label)
+        label.addEventListener('click', e => {
+          this.getHouseData(item.value)
+        })
+      })
+    },
+
+    // 创建方形覆盖物
+    createRect () {
+      this.overlays.forEach(item => {
+        var point = new window.BMap.Point(
+          item.coord.longitude,
+          item.coord.latitude
+        )
+        var opts = {
+          // 指定文本标注所在的地理位置
+          position: point
+        }
+        // 创建文本标注对象
+        var label = new window.BMap.Label(
+          `<div class="rect">
+              <span class="housename">航都路18号</span>
+              <span class="housenum">100 套</span>
+              <i class="arrow"></i>
+           </div>`,
+          opts
+        )
+        label.setStyle({
+          height: '20px',
+          lineHeight: '19px',
+          width: '100px',
+          padding: '0 3px',
+          borderRadius: '3px',
+          position: 'absolute',
+          background: 'rgba(12, 181, 106, 0.9)',
+          cursor: 'pointer',
+          whiteSpace: 'nowrap'
+        })
+        // 把文字覆盖物添加到地图上
+        window.map.addOverlay(label)
       })
     },
 
@@ -106,10 +143,16 @@ export default {
           }
         }
       )
-      this.getTypeAndZoom()
-      console.log(this.overlays)
+      window.map.clearOverlays()
+      let { type, nextZoom } = this.getTypeAndZoom()
       if (status === 200) {
         this.overlays = body
+        if (type === 'rect') {
+          this.createRect()
+        } else {
+          this.createCircle()
+        }
+        this.initMap(nextZoom)
       }
     }
   }
