@@ -11,12 +11,17 @@ export default {
     }
   },
   created () {
+
+  },
+  mounted () {
+    this.initMap()
     this.getHouseData()
   },
   methods: {
     // 初始化地图
-    initMap () {
+    initMap (type) {
       var map = new window.BMap.Map('l-map')
+      window.map = map
       var myGeo = new window.BMap.Geocoder()
       let cityname = localStorage.getItem('cityname')
       // 将地址解析结果显示在地图上，并调整地图视野
@@ -32,8 +37,30 @@ export default {
         },
         cityname
       )
-      // 4. 添加文字覆盖物
-      console.log(this.overlays)
+    },
+
+    // 判断现在到底处在哪个层级,通过判断在哪个层级知道覆盖物是什么类型的
+    getTypeAndZoom () {
+      const zoom = window.map.getZoom()
+      console.log(zoom)
+      let nextZoom, type
+      if (zoom === 3) {
+        nextZoom = 13
+        type = 'circle'
+      } else if (zoom === 13) {
+        nextZoom = 15
+        type = 'circle'
+      } else {
+        nextZoom = 15
+        type = 'rect'
+      }
+      return {
+        nextZoom,
+        type
+      }
+    },
+    // 创建圆形覆盖物
+    createCircle () {
       this.overlays.forEach(item => {
         var point = new window.BMap.Point(
           item.coord.longitude,
@@ -42,8 +69,6 @@ export default {
         var opts = {
           // 指定文本标注所在的地理位置
           position: point
-          // 设置文本x轴和y轴的偏移量
-          // offset: new window.BMap.Size(30, -30)
         }
         // 创建文本标注对象
         var label = new window.BMap.Label(
@@ -67,9 +92,10 @@ export default {
           cursor: 'pointer'
         })
         // 把文字覆盖物添加到地图上
-        map.addOverlay(label)
+        window.map.addOverlay(label)
       })
     },
+
     // 查询房源数据
     async getHouseData (value) {
       let { status, body } = await this.$axios.get(
@@ -80,9 +106,10 @@ export default {
           }
         }
       )
+      this.getTypeAndZoom()
+      console.log(this.overlays)
       if (status === 200) {
         this.overlays = body
-        this.initMap()
       }
     }
   }
@@ -90,8 +117,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-/* 区、镇的覆盖物样式： */
-
 #l-map {
   height: 100%;
 }
