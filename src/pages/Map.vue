@@ -27,7 +27,7 @@ export default {
         cityname,
         function (point) {
           if (point) {
-            map.centerAndZoom(point, nextZoom)
+            map.centerAndZoom(point, 11)
             map.addControl(new window.BMap.NavigationControl())
             map.addControl(new window.BMap.ScaleControl())
             map.addOverlay(new window.BMap.Marker(point))
@@ -58,7 +58,7 @@ export default {
       }
     },
     // 创建圆形覆盖物
-    createCircle () {
+    createCircle (nextZoom) {
       this.overlays.forEach(item => {
         var point = new window.BMap.Point(
           item.coord.longitude,
@@ -93,12 +93,13 @@ export default {
         window.map.addOverlay(label)
         label.addEventListener('click', e => {
           this.getHouseData(item.value)
+          window.map.centerAndZoom(point, nextZoom)
         })
       })
     },
 
     // 创建方形覆盖物
-    createRect () {
+    createRect (nextZoom) {
       this.overlays.forEach(item => {
         var point = new window.BMap.Point(
           item.coord.longitude,
@@ -111,8 +112,8 @@ export default {
         // 创建文本标注对象
         var label = new window.BMap.Label(
           `<div class="rect">
-              <span class="housename">航都路18号</span>
-              <span class="housenum">100 套</span>
+              <span class="housename">${item.label}</span>
+              <span class="housenum">${item.count}套</span>
               <i class="arrow"></i>
            </div>`,
           opts
@@ -130,6 +131,7 @@ export default {
         })
         // 把文字覆盖物添加到地图上
         window.map.addOverlay(label)
+        window.map.centerAndZoom(point, nextZoom)
       })
     },
 
@@ -148,11 +150,10 @@ export default {
       if (status === 200) {
         this.overlays = body
         if (type === 'rect') {
-          this.createRect()
+          this.createRect(nextZoom)
         } else {
-          this.createCircle()
+          this.createCircle(nextZoom)
         }
-        this.initMap(nextZoom)
       }
     }
   }
