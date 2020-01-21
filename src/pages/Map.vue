@@ -2,6 +2,19 @@
   <div class="map">
     <TopHeader></TopHeader>
     <div id="l-map"></div>
+    <div class="house" v-for="item in houses" :key="item.houseCode">
+      <div class="imgWrap">
+        <img class="img" alt />
+      </div>
+      <div class="content">
+        <h3 class="title">{{item.title}}</h3>
+        <div class="desc">{{item.desc}}</div>
+
+        <div class="price">
+          <span class="priceNum">{{item.price}}</span> 元/月
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -14,7 +27,9 @@ export default {
   data () {
     return {
       // 覆盖物数据
-      overlays: []
+      overlays: [],
+      // 具体房屋数据
+      houses: []
     }
   },
 
@@ -133,11 +148,15 @@ export default {
           position: 'absolute',
           background: 'rgba(12, 181, 106, 0.9)',
           cursor: 'pointer',
-          whiteSpace: 'nowrap'
+          whiteSpace: 'nowrap',
+          color: '#fff',
+          border: 'none'
         })
         // 把文字覆盖物添加到地图上
         window.map.addOverlay(label)
-        window.map.centerAndZoom(point, nextZoom)
+        label.addEventListener('click', e => {
+          this.getHouseDetailData(item)
+        })
       })
     },
 
@@ -167,6 +186,17 @@ export default {
         }
         toast.hide()
       }
+    },
+
+    // 展示房源具体信息
+    async getHouseDetailData (item) {
+      const { status, body } = await this.$axios.get(
+        `http://localhost:8080/houses?cityId=${item.value}`
+      )
+      if (status === 200) {
+        this.houses = body.list
+        console.log(this.houses)
+      }
     }
   }
 }
@@ -176,8 +206,28 @@ export default {
 .map {
   height: 100%;
   #l-map {
-    padding-top:40px;
+    padding-top: 40px;
     height: 100%;
+  }
+  .house {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    height: 120px;
+    box-sizing: border-box;
+    padding-top: 18px;
+    border-bottom: 1px solid #e5e5e5;
+    .imgWrap {
+      float: left;
+      width: 106px;
+      height: 80px;
+      .img {
+        width: 106px;
+        height: 80px;
+      }
+    }
   }
 }
 </style>
