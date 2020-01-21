@@ -75,7 +75,7 @@
 export default {
   data () {
     return {
-      cityname: '上海',
+      cityname: localStorage.getItem('cityname') || '上海',
       swiperOption: {
         pagination: {
           el: '.swiper-pagination',

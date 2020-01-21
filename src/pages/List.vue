@@ -10,12 +10,14 @@
         <h1>城市选择</h1>
       </div>
     </router-link>
-    <cube-index-list :data="cityList"></cube-index-list>
+    <cube-index-list :data="cityList" @select="selectItem">
+    </cube-index-list>
   </div>
 </template>
 
 <script>
 import { handleLangList, hotCityList } from '../utils/Func'
+import { setTimeout } from 'timers'
 export default {
   data () {
     return {
@@ -44,7 +46,40 @@ export default {
         this.hotCity = hotCityList(body)
         // 定位城市
         this.positionCity = hotCityList()
-        this.cityList = [...this.positionCity, ...this.hotCity, ...this.cityList]
+        this.cityList = [
+          ...this.positionCity,
+          ...this.hotCity,
+          ...this.cityList
+        ]
+      }
+    },
+    // 点击改变定位城市
+    selectItem (item) {
+      if (
+        item.name === '上海' ||
+        item.name === '北京' ||
+        item.name === '广州' ||
+        item.name === '深圳'
+      ) {
+        this.cityList[0].items[0].label = item.name
+        this.cityList[0].items[0].name = item.name
+        localStorage.setItem('cityname', item.name)
+        const toast = this.$createToast({
+          time: 1500,
+          type: 'correct',
+          txt: '当前定位城市' + item.name
+        })
+        toast.show()
+        setTimeout(() => {
+          this.$router.push('/home/index')
+        }, 2000)
+      } else {
+        const toast = this.$createToast({
+          time: 1500,
+          type: 'error',
+          txt: '抱歉当前城市无房源'
+        })
+        toast.show()
       }
     }
   }
