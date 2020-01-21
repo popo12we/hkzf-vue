@@ -10,17 +10,17 @@ export default {
   methods: {
     initMap () {
       var map = new window.BMap.Map('l-map')
-      map.centerAndZoom(new window.BMap.Point(116.404, 39.915), 11)
-      // 创建地址解析器实例
       var myGeo = new window.BMap.Geocoder()
+      let cityname = localStorage.getItem('cityname')
       // 将地址解析结果显示在地图上，并调整地图视野
-      myGeo.getPoint('北京市海淀区上地10街10号', function (point) {
+      myGeo.getPoint(cityname, function (point) {
+        console.log(point)
         if (point) {
-          map.centerAndZoom(point, 16)
+          map.centerAndZoom(point, 11)
           map.addOverlay(new window.BMap.Marker(point))
         }
       },
-      '北京市')
+      cityname)
     }
   }
 }
