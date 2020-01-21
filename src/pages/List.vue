@@ -17,7 +17,6 @@
 
 <script>
 import { handleLangList, hotCityList } from '../utils/Func'
-import { setTimeout } from 'timers'
 export default {
   data () {
     return {
@@ -64,6 +63,7 @@ export default {
         this.cityList[0].items[0].label = item.name
         this.cityList[0].items[0].name = item.name
         localStorage.setItem('cityname', item.name)
+        localStorage.setItem('cityvalue', item.value)
         const toast = this.$createToast({
           time: 1500,
           type: 'correct',
