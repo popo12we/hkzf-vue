@@ -1,4 +1,4 @@
-const handleLangList = body => {
+export const handleLangList = body => {
   body.forEach(item => {
     item.name = item.label
   })
@@ -21,6 +21,20 @@ const handleLangList = body => {
   }
   return newList
 }
-export {
-  handleLangList
+
+export const hotCityList = body => {
+  let obj = {}
+
+  obj.items = []
+  if (body) {
+    body.forEach(item => {
+      obj.items.push({ label: item.label, value: item.value, name: item.label })
+      obj.name = '热门城市'
+    })
+  } else {
+    obj.items.push({ label: localStorage.getItem('cityname'), name: localStorage.getItem('cityname') })
+    obj.name = '当前定位'
+  }
+  obj = [obj]
+  return obj
 }

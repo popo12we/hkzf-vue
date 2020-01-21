@@ -15,12 +15,13 @@
 </template>
 
 <script>
-import { handleLangList } from '../utils/Func'
+import { handleLangList, hotCityList } from '../utils/Func'
 export default {
   data () {
     return {
       cityList: [],
-      hotCityList: []
+      hotCity: [],
+      positionCity: []
     }
   },
   created () {
@@ -39,14 +40,11 @@ export default {
     async getHotList () {
       let { status, body } = await this.$axios.get('/area/hot')
       if (status === 200) {
-        let obj = {}
-        obj.name = '#'
-        obj.items = []
-        body.forEach(item => {
-          obj.items.push({ label: item.label, value: item.value, name: item.label })
-        })
-        obj = [obj]
-        this.cityList = [...obj, ...this.cityList]
+        // 热门城市
+        this.hotCity = hotCityList(body)
+        // 定位城市
+        this.positionCity = hotCityList()
+        this.cityList = [...this.positionCity, ...this.hotCity, ...this.cityList]
       }
     }
   }
