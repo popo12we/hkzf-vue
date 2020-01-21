@@ -76,6 +76,7 @@ export default {
   data () {
     return {
       cityname: localStorage.getItem('cityname') || '上海',
+      cityvalue: localStorage.getItem('cityvalue') || 'AREA|dbf46d32-7e76-1196',
       swiperOption: {
         pagination: {
           el: '.swiper-pagination',
@@ -91,6 +92,7 @@ export default {
     this.getSwiperList()
     this.getGroupList()
     localStorage.setItem('cityname', this.cityname)
+    localStorage.setItem('cityvalue', this.cityvalue)
   },
   methods: {
     // 轮播图
