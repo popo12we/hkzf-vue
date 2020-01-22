@@ -22,7 +22,7 @@ export default {
 }
 </script>
 
-<style  lang="less" scoped>
+<style lang="less" scoped>
 // 头部
 .header {
   height: 45px;
