@@ -33,26 +33,44 @@ export default {
         }
       })
       if (status === 200) {
-        this.areaList = body.area.children
-        this.areaList.forEach(item => {
+        body.area.text = body.area.label
+        body.subway.text = body.subway.label
+        body.area.children.forEach(item => {
           item.text = item.label
+          console.log(item)
+          if (item.children) {
+            item.children.forEach(item1 => {
+              item1.text = item1.label
+            })
+          }
         })
+        body.subway.children.forEach(item => {
+          item.text = item.label
+          console.log(item)
+          if (item.children) {
+            item.children.forEach(item1 => {
+              item1.text = item1.label
+            })
+          }
+        })
+        // body.subway.children.forEach(item => {
+        //   item.text = item.label
+        //   item.children.forEach(item1 => {
+        //     item1.text = item1.label
+        //   })
+        // })
+        this.areaList = [body.area, body.subway]
+        console.log(this.areaList)
       }
     },
     showMutiPicker () {
       if (!this.mutiPicker) {
-        console.log(this.areaList)
-        this.mutiPicker = this.$createPicker({
+        this.mutiPicker = this.$createCascadePicker({
           title: '区域',
-          data: [this.areaList, this.areaList],
-          onSelect: this.selectHandle,
-          onCancel: this.cancelHandle
+          data: this.areaList
         })
       }
       this.mutiPicker.show()
-    },
-    selectHandle (selectedVal, selectedIndex, selectedText) {
-
     }
   },
   watch: {
