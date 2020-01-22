@@ -9,7 +9,7 @@
         </router-link>
       </li>
       <li>
-        <router-link to="/list" class="bgi">
+        <router-link to="/home/findhouse" class="bgi">
           <i class="iconfont icon-findHouse"></i>
           <p>找房</p>
         </router-link>
