@@ -40,17 +40,24 @@ export const hotCityList = body => {
 }
 
 export const handlePickerData = obj => {
-  obj.text = obj.label
-  obj.children.forEach(item => {
-    item.text = item.label
-    if (item.children) {
-      item.children.forEach(item1 => {
-        item1.text = item1.label
-        if (item1.children) {
-          delete item1.children
-        }
-      })
-    }
-  })
+  if (!obj.children) {
+    obj.forEach(item => {
+      item.text = item.label
+    })
+  } else {
+    obj.text = obj.label
+    obj.children.forEach(item => {
+      item.text = item.label
+      if (item.children) {
+        item.children.forEach(item1 => {
+          item1.text = item1.label
+          if (item1.children) {
+            delete item1.children
+          }
+        })
+      }
+    })
+  }
+
   return obj
 }

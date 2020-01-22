@@ -1,12 +1,10 @@
 <template>
-   <div class="picker">
-     <div v-if="selectedLabel==='区域'">
-
-     </div>
-     <div v-if="selectedLabel==='方式'">2222</div>
-     <div v-if="selectedLabel==='租金'">3333</div>
-     <div v-if="selectedLabel==='筛选'">4444</div>
-   </div>
+  <div class="picker">
+    <div v-if="selectedLabel==='区域'"></div>
+    <div v-if="selectedLabel==='方式'"></div>
+    <div v-if="selectedLabel==='租金'"></div>
+    <div v-if="selectedLabel==='筛选'"></div>
+  </div>
 </template>
 
 <script>
@@ -18,7 +16,12 @@ export default {
   },
   data () {
     return {
-      areaList: []
+      // 区域数据
+      areaList: [],
+      // 方式数据
+      modeList: [],
+      // 租金数据
+      priceList: []
     }
   },
   created () {
@@ -33,12 +36,18 @@ export default {
         }
       })
       if (status === 200) {
+        console.log(body)
         body.area = handlePickerData(body.area)
         body.subway = handlePickerData(body.subway)
+        // 区域数据
         this.areaList = [body.area, body.subway]
+        // 方式数据
+        this.modeList = handlePickerData(body.rentType)
+        this.priceList = handlePickerData(body.price)
       }
     },
-    showMutiPicker () {
+    // 区域
+    showAreaPicker () {
       if (!this.mutiPicker) {
         this.mutiPicker = this.$createCascadePicker({
           title: '区域',
@@ -46,12 +55,38 @@ export default {
         })
       }
       this.mutiPicker.show()
+    },
+    // 方式
+    showModePicker () {
+      if (!this.picker) {
+        this.picker = this.$createPicker({
+          title: '方式',
+          data: [this.modeList]
+        })
+      }
+      this.picker.show()
+    },
+    // 租金
+    showPricePicker () {
+      if (!this.picker) {
+        this.picker = this.$createPicker({
+          title: '租金',
+          data: [this.priceList]
+        })
+      }
+      this.picker.show()
     }
   },
   watch: {
     selectedLabel (newVal) {
       if (newVal === '区域') {
-        this.showMutiPicker()
+        this.showAreaPicker()
+      }
+      if (newVal === '方式') {
+        this.showModePicker()
+      }
+      if (newVal === '租金') {
+        this.showPricePicker()
       }
     }
   }
