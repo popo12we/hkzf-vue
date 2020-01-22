@@ -10,7 +10,7 @@
 </template>
 
 <script>
-
+import { handlePickerData } from '../utils/Func'
 export default {
   props: {
     isShow: Boolean,
@@ -33,34 +33,9 @@ export default {
         }
       })
       if (status === 200) {
-        body.area.text = body.area.label
-        body.subway.text = body.subway.label
-        body.area.children.forEach(item => {
-          item.text = item.label
-          console.log(item)
-          if (item.children) {
-            item.children.forEach(item1 => {
-              item1.text = item1.label
-            })
-          }
-        })
-        body.subway.children.forEach(item => {
-          item.text = item.label
-          console.log(item)
-          if (item.children) {
-            item.children.forEach(item1 => {
-              item1.text = item1.label
-            })
-          }
-        })
-        // body.subway.children.forEach(item => {
-        //   item.text = item.label
-        //   item.children.forEach(item1 => {
-        //     item1.text = item1.label
-        //   })
-        // })
+        body.area = handlePickerData(body.area)
+        body.subway = handlePickerData(body.subway)
         this.areaList = [body.area, body.subway]
-        console.log(this.areaList)
       }
     },
     showMutiPicker () {
