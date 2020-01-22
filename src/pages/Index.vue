@@ -177,6 +177,7 @@ export default {
       p {
         margin:10px 0;
         text-align: center;
+        color:#333;
       }
     }
   }
