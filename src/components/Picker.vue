@@ -58,23 +58,23 @@ export default {
     },
     // 方式
     showModePicker () {
-      if (!this.picker) {
-        this.picker = this.$createPicker({
+      if (!this.areapicker) {
+        this.areapicker = this.$createPicker({
           title: '方式',
           data: [this.modeList]
         })
       }
-      this.picker.show()
+      this.areapicker.show()
     },
     // 租金
     showPricePicker () {
-      if (!this.picker) {
-        this.picker = this.$createPicker({
+      if (!this.pricepicker) {
+        this.pricepicker = this.$createPicker({
           title: '租金',
           data: [this.priceList]
         })
       }
-      this.picker.show()
+      this.pricepicker.show()
     }
   },
   watch: {
