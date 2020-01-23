@@ -2,19 +2,33 @@
   <div class="findhouse">
     <!-- 顶部tabbar -->
     <div class="tabbar">
-      <div class="tab" v-for="item in tabs" :key="item.id" @click="changeLabel(item.label)">{{item.label}}</div>
+      <div
+        class="tab"
+        v-for="item in tabs"
+        :key="item.id"
+        @click="changeLabel(item.label)"
+      >{{item.label}}</div>
       <Picker :isShow="isShow" :selectedLabel="selectedLabel" @getData="getData"></Picker>
     </div>
     <!-- 房屋列表 -->
-    <div class="house" v-for="(item,index) in houseList" :key="index">
-      <div class="imgWrap">
-        <img class="img" alt="" />
-      </div>
-      <div class="content">
-        <h3 class="title">{{item.title}}</h3>
-        <div class="desc">{{item.desc}}</div>
-        <div class=".price">
-          <span class="priceNum">{{item.price}}</span> 元/月
+    <div class="houseDataList">
+      <div class="house" v-for="(item,index) in houseList" :key="index">
+        <div class="imgWrap">
+         <img class="img" :src="'http://localhost:8080'+`${item.houseImg}`" alt="" />
+        </div>
+        <div class="content">
+          <h3 class="title">{{item.title}}</h3>
+          <div class="desc">{{item.desc}}</div>
+          <div>
+            <span
+              v-for="(item1,index1) in item.tags"
+              :key="index1"
+              :class="['tag', `tag${index1 > 2 ? '3' : index1 + 1}`].join(' ')"
+            >{{item1}}</span>
+          </div>
+          <div class="price">
+            <span class="priceNum">{{item.price}}</span> 元/月
+          </div>
         </div>
       </div>
     </div>
@@ -50,7 +64,6 @@ export default {
     getData (data) {
       this.houseList = data
     }
-
   }
 }
 </script>
@@ -69,6 +82,84 @@ export default {
   /deep/ .cube-tab-bar {
     height: 40px;
     font-size: 16px;
+  }
+  .houseDataList {
+    padding-top:35px;
+    .house {
+      height: 120px;
+      position: relative;
+      box-sizing: border-box;
+      justify-content: space-around;
+      padding-top: 18px;
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    .imgWrap {
+      float: left;
+      width: 106px;
+      height: 80px;
+    }
+
+    .img {
+      width: 106px;
+      height: 80px;
+    }
+
+    .content {
+      overflow: hidden;
+      line-height: 22px;
+      padding-left: 12px;
+    }
+
+    .title {
+      margin: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      vertical-align: middle;
+      font-size: 15px;
+      color: #394043;
+    }
+
+    .desc {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      vertical-align: middle;
+      font-size: 12px;
+      color: #afb2b3;
+    }
+
+    .price {
+      font-size: 12px;
+      color: #fa5741;
+    }
+
+    .priceNum {
+      font-size: 16px;
+      font-weight: bolder;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 12px;
+      border-radius: 3px;
+      padding: 4px 5px;
+      margin-right: 5px;
+      line-height: 12px;
+    }
+    .tag1 {
+      color: #39becd;
+      background: #e1f5f8;
+    }
+    .tag2 {
+      color: #3fc28c;
+      background: #e1f5ed;
+    }
+    .tag3 {
+      color: #5aabfd;
+      background: #e6f2ff;
+    }
   }
 }
 </style>
