@@ -8,7 +8,7 @@
         :key="item.id"
         @click="changeLabel(item.label)"
       >{{item.label}}</div>
-      <Picker :isShow="isShow" :selectedLabel="selectedLabel" @getData="getData"></Picker>
+      <Picker :selectedLabel="selectedLabel" @getData="getData" @clearLabel="clearLabel"></Picker>
     </div>
     <!-- 房屋列表 -->
     <div class="houseDataList">
@@ -51,7 +51,6 @@ export default {
       ],
       // 选中项
       selectedLabel: '',
-      isShow: true,
       // 房屋列表
       houseList: []
     }
@@ -60,6 +59,10 @@ export default {
     // 改变选项卡
     changeLabel (label) {
       this.selectedLabel = label
+    },
+    // 清空选项卡数据
+    clearLabel () {
+      this.selectedLabel = ''
     },
     getData (data) {
       this.houseList = data

@@ -51,6 +51,7 @@ export default {
     },
     // 区域
     showAreaPicker () {
+      this.$emit('clearLabel')
       if (!this.mutiPicker) {
         this.mutiPicker = this.$createCascadePicker({
           title: '区域',
@@ -61,13 +62,12 @@ export default {
       this.mutiPicker.show()
     },
     areaHandle (area) {
-      console.log(area)
-      console.log(area[length - 1])
       area.length === 3 ? (area[area.length - 1] === 'null' ? this.queryObj.area = area[area.length - 2] : this.queryObj.area = area[area.length - 1]) : this.queryObj.area = null
       this.searchHouseList()
     },
     // 方式
     showModePicker () {
+      this.$emit('clearLabel')
       if (!this.modepicker) {
         this.modepicker = this.$createPicker({
           title: '方式',
@@ -78,12 +78,12 @@ export default {
       this.modepicker.show()
     },
     modeHandle (mode) {
-      // console.log(mode)
       this.queryObj.rentType = mode[0]
       this.searchHouseList()
     },
     // 租金
     showPricePicker () {
+      this.$emit('clearLabel')
       if (!this.pricepicker) {
         this.pricepicker = this.$createPicker({
           title: '租金',
@@ -94,13 +94,11 @@ export default {
       this.pricepicker.show()
     },
     priceHandle (price) {
-      console.log(price)
       this.queryObj.price = price[0]
       this.searchHouseList()
     },
     // 筛选房源数据
     async searchHouseList (start = 1, end = 20) {
-      console.log(this.queryObj)
       const res = await this.$axios.get('/houses', {
         params: {
           ...this.queryObj,
@@ -109,20 +107,21 @@ export default {
           end
         }
       })
-      console.log(res)
       this.$emit('getData', res.body.list)
     }
   },
   watch: {
-    selectedLabel (newVal) {
-      if (newVal === '区域') {
-        this.showAreaPicker()
-      }
-      if (newVal === '方式') {
-        this.showModePicker()
-      }
-      if (newVal === '租金') {
-        this.showPricePicker()
+    selectedLabel: {
+      handler  (newVal) {
+        if (newVal === '区域') {
+          this.showAreaPicker()
+        }
+        if (newVal === '方式') {
+          this.showModePicker()
+        }
+        if (newVal === '租金') {
+          this.showPricePicker()
+        }
       }
     }
   }

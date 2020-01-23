@@ -15,7 +15,6 @@ Vue.prototype.$axios = axios
 axios.defaults.baseURL = 'http://localhost:8080'
 // 配置axios的响应拦截器
 axios.interceptors.response.use(function (res) {
-  // console.log('res', res)
   return res.data
 })
 new Vue({
