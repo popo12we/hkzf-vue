@@ -85,6 +85,7 @@ export default {
   }
   .houseDataList {
     padding-top:35px;
+    padding-bottom: 50px;
     .house {
       height: 120px;
       position: relative;

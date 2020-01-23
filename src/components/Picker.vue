@@ -28,6 +28,7 @@ export default {
   },
   created () {
     this.getCondition()
+    this.searchHouseList()
   },
   methods: {
     // 拿到房租获取条件
@@ -44,6 +45,7 @@ export default {
         this.areaList = [body.area, body.subway]
         // 方式数据
         this.modeList = handlePickerData(body.rentType)
+        // 租金数据
         this.priceList = handlePickerData(body.price)
       }
     },
@@ -52,10 +54,17 @@ export default {
       if (!this.mutiPicker) {
         this.mutiPicker = this.$createCascadePicker({
           title: '区域',
-          data: this.areaList
+          data: this.areaList,
+          onSelect: this.areaHandle
         })
       }
       this.mutiPicker.show()
+    },
+    areaHandle (area) {
+      console.log(area)
+      console.log(area[length - 1])
+      area.length === 3 ? (area[area.length - 1] === 'null' ? this.queryObj.area = area[area.length - 2] : this.queryObj.area = area[area.length - 1]) : this.queryObj.area = null
+      this.searchHouseList()
     },
     // 方式
     showModePicker () {
@@ -91,6 +100,7 @@ export default {
     },
     // 筛选房源数据
     async searchHouseList (start = 1, end = 20) {
+      console.log(this.queryObj)
       const res = await this.$axios.get('/houses', {
         params: {
           ...this.queryObj,
