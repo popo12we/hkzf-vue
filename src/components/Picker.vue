@@ -13,6 +13,7 @@ export default {
   props: {
     isShow: Boolean,
     selectedLabel: String
+
   },
   data () {
     return {
@@ -21,7 +22,8 @@ export default {
       // 方式数据
       modeList: [],
       // 租金数据
-      priceList: []
+      priceList: [],
+      queryObj: {}
     }
   },
   created () {
@@ -36,7 +38,6 @@ export default {
         }
       })
       if (status === 200) {
-        console.log(body)
         body.area = handlePickerData(body.area)
         body.subway = handlePickerData(body.subway)
         // 区域数据
@@ -58,23 +59,48 @@ export default {
     },
     // 方式
     showModePicker () {
-      if (!this.areapicker) {
-        this.areapicker = this.$createPicker({
+      if (!this.modepicker) {
+        this.modepicker = this.$createPicker({
           title: '方式',
-          data: [this.modeList]
+          data: [this.modeList],
+          onSelect: this.modeHandle
         })
       }
-      this.areapicker.show()
+      this.modepicker.show()
+    },
+    modeHandle (mode) {
+      // console.log(mode)
+      this.queryObj.rentType = mode[0]
+      this.searchHouseList()
     },
     // 租金
     showPricePicker () {
       if (!this.pricepicker) {
         this.pricepicker = this.$createPicker({
           title: '租金',
-          data: [this.priceList]
+          data: [this.priceList],
+          onSelect: this.priceHandle
         })
       }
       this.pricepicker.show()
+    },
+    priceHandle (price) {
+      console.log(price)
+      this.queryObj.price = price[0]
+      this.searchHouseList()
+    },
+    // 筛选房源数据
+    async searchHouseList (start = 1, end = 20) {
+      const res = await this.$axios.get('/houses', {
+        params: {
+          ...this.queryObj,
+          cityId: localStorage.getItem('cityvalue'),
+          start,
+          end
+        }
+      })
+      console.log(res)
+      this.$emit('getData', res.body.list)
     }
   },
   watch: {

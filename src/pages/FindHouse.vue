@@ -3,7 +3,20 @@
     <!-- 顶部tabbar -->
     <div class="tabbar">
       <div class="tab" v-for="item in tabs" :key="item.id" @click="changeLabel(item.label)">{{item.label}}</div>
-      <Picker :isShow="isShow" :selectedLabel="selectedLabel"></Picker>
+      <Picker :isShow="isShow" :selectedLabel="selectedLabel" @getData="getData"></Picker>
+    </div>
+    <!-- 房屋列表 -->
+    <div class="house" v-for="(item,index) in houseList" :key="index">
+      <div class="imgWrap">
+        <img class="img" alt="" />
+      </div>
+      <div class="content">
+        <h3 class="title">{{item.title}}</h3>
+        <div class="desc">{{item.desc}}</div>
+        <div class=".price">
+          <span class="priceNum">{{item.price}}</span> 元/月
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -24,13 +37,18 @@ export default {
       ],
       // 选中项
       selectedLabel: '',
-      isShow: true
+      isShow: true,
+      // 房屋列表
+      houseList: []
     }
   },
   methods: {
     // 改变选项卡
     changeLabel (label) {
       this.selectedLabel = label
+    },
+    getData (data) {
+      this.houseList = data
     }
 
   }
