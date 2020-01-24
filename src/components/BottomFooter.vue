@@ -21,7 +21,7 @@
         </router-link>
       </li>
       <li>
-        <router-link to="/home/my" class="bgi">
+        <router-link to="/home/profile" class="bgi">
           <i class="iconfont icon-my"></i>
           <p>我的</p>
         </router-link>

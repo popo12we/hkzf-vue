@@ -16,6 +16,10 @@ const routes = [
       {
         path: '/home/findhouse',
         component: () => import('@/pages/FindHouse')
+      },
+      {
+        path: '/home/profile',
+        component: () => import('@/pages/Profile')
       }
 
     ]
