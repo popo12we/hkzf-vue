@@ -14,6 +14,9 @@ export default {
         if (data.path === '/list') {
           localStorage.setItem('title', '城市选择')
         }
+        if (data.path === '/login') {
+          localStorage.setItem('title', '账号登录')
+        }
       },
       // 深度观察监听
       deep: true
