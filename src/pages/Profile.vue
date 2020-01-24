@@ -9,16 +9,16 @@
             <img class="avatar" :src="'http://localhost:8080/img/profile/avatar.png'" alt="icon" />
           </div>
           <div class="user">
-            <div class="name">少女时代</div>
+            <div class="name">游客</div>
             <div class="auth">
-              <span>退出</span>
+              <span @click="toLogin">去登录</span>
             </div>
-            <div class="edit">
+            <!-- <div class="edit">
               编辑个人资料
               <span class="arrow">
                 <i class="iconfont icon-arrow" />
               </span>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -55,6 +55,11 @@ export default {
         { id: 6, name: '联系我们', iconfont: 'icon-cust' }
       ]
     }
+  },
+  methods: {
+    toLogin () {
+      this.$router.push('/login')
+    }
   }
 }
 </script>
@@ -87,7 +92,14 @@ export default {
 }
 
 .auth {
-  margin-bottom: 30px;
+  margin: 30px 0;
+  span{
+  border-radius: 10px;
+  color: #fff;
+  padding: 8px 15px;
+  background: #21b97a;
+  font-size: 12px;
+  }
 }
 
 .user {

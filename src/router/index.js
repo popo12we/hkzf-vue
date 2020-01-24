@@ -31,6 +31,10 @@ const routes = [
   {
     path: '/list',
     component: () => import('@/pages/List')
+  },
+  {
+    path: '/login',
+    component: () => import('@/pages/Login')
   }
 ]
 const router = new VueRouter({
