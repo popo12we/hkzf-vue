@@ -1,6 +1,7 @@
 <template>
   <div class="profile">
     <div class="root">
+      <!-- 头像部分 -->
       <div class="title">
         <img class="bg" :src="'http://localhost:8080/img/profile/bg.png'" />
         <div class="info">
@@ -20,6 +21,17 @@
             </div>
           </div>
         </div>
+      </div>
+      <!-- 九宫格部分 -->
+      <div class="grid">
+        <div class="menuItem" v-for="item in menus" :key="item.id">
+          <i :class="['iconfont',`${item.iconfont}`]" />
+          <span>{{item.name}}</span>
+        </div>
+      </div>
+      <!-- 加入图片 -->
+      <div class="add">
+        <img src="http://localhost:8080/img/profile/join.png" alt />
       </div>
     </div>
     <BottomFooter></BottomFooter>
@@ -100,96 +112,25 @@ export default {
   margin-top: -30px;
   margin-bottom: 10px;
 }
-.auth :global(span) {
-  border-radius: 30px;
-  color: #fff;
-  padding: 2px 15px;
-  background: #21b97a;
-  font-size: 12px;
-}
-.edit {
-  color: #999;
-  font-size: 12px;
-  margin-top: 20px;
-}
-.edit :global(.am-button-primary) {
-  background-color: #21b97a;
-}
-
-.arrow {
-  transform: rotate(-90deg);
-  display: inline-block;
-  margin-left: 3px;
-}
-
-.arrow :global(.icon-arrow) {
-  font-size: 12px;
-  vertical-align: middle;
-}
-
-.ad {
-  text-align: center;
-  margin-top: 10px;
-}
-
-.ad :global(img) {
-  width: 92%;
-}
-
-/* .container::-webkit-scrollbar {
-  width: 3px;
-}
-.container::-webkit-scrollbar-thumb {
-  background-color: #cbdaea;
-  -webkit-border-radius: 2em;
-  -moz-border-radius: 2em;
-  border-radius: 2em;
-  min-height: 2rem;
-  background-clip: padding-box;
-  border-radius: 5px;
-}
-.container::-webkit-scrollbar-track {
-  background-color: #fff;
-}
-.container::-webkit-scrollbar-track-piece {
-  height: 30px;
-} */
-/*
-.ui.modal > .actions {
-  text-align: center;
-}
-.ui.modal > .content {
-  text-align: center;
-}
-.ui.modal > .content .avatar-zoom {
-  color: #000;
-  margin-right: 10px;
-  display: inline-block;
-  vertical-align: text-bottom;
-  padding-bottom: 2px;
-  font-size: 18px;
-}
- */
 .menuItem {
+  float: left;
+  width: 33.3%;
+  padding: 10px 0;
+  height: 80px;
+  text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%;
-  font-size: 13px;
-  color: #333;
+  font-size: 14px;
+  i,
+  span {
+    line-height: 30px;
+  }
 }
-
-.menuItem :global(i) {
-  font-size: 20px;
-  margin-bottom: 10px;
-}
-
-:global(.am-grid.am-grid-square .am-grid-item:before) {
-  padding-bottom: 76%;
-}
-
-:global(.am-grid .am-flexbox) {
-  background-color: inherit;
+.add{
+  img{
+    width:100%;
+  }
 }
 </style>
