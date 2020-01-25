@@ -17,6 +17,9 @@ export default {
         if (data.path === '/login') {
           localStorage.setItem('title', '账号登录')
         }
+        if (data.path === '/add') {
+          localStorage.setItem('title', '发布房源')
+        }
       },
       // 深度观察监听
       deep: true

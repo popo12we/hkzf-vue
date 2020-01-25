@@ -13,7 +13,7 @@ Vue.use(VueAwesomeSwiper)
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
 axios.defaults.baseURL = 'http://localhost:8080'
-// 配置axios的响应拦截器
+// 配置axios的请求拦截器
 axios.interceptors.request.use(config => {
   const { url } = config
   if (url.startsWith('/user') && localStorage.getItem('token')) {
@@ -21,6 +21,7 @@ axios.interceptors.request.use(config => {
   }
   return config
 })
+// 配置axios的响应拦截器
 axios.interceptors.response.use(function (res) {
   return res.data
 })
