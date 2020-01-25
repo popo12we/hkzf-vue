@@ -4,7 +4,7 @@
       <!-- 头像部分 -->
       <div class="title">
         <img class="bg" :src="'http://localhost:8080/img/profile/bg.png'" />
-        <div class="info">
+        <div class="info" v-if="!isLogin">
           <div class="myIcon">
             <img class="avatar" :src="'http://localhost:8080/img/profile/avatar.png'" alt="icon" />
           </div>
@@ -13,12 +13,18 @@
             <div class="auth">
               <span @click="toLogin">去登录</span>
             </div>
-            <!-- <div class="edit">
-              编辑个人资料
-              <span class="arrow">
-                <i class="iconfont icon-arrow" />
-              </span>
-            </div> -->
+          </div>
+        </div>
+
+        <div class="info" v-if="isLogin">
+          <div class="myIcon">
+            <img class="avatar" :src="'http://localhost:8080'+`${user.avatar}`" />
+          </div>
+          <div class="user" v-if="isLogin">
+            <div class="name">{{user.nickname}}</div>
+            <div class="auth">
+              <span @click="toLoginOut">退出</span>
+            </div>
           </div>
         </div>
       </div>
@@ -53,7 +59,9 @@ export default {
         { id: 4, name: '成为房主', iconfont: 'icon-identity' },
         { id: 5, name: '个人资料', iconfont: 'icon-myinfo' },
         { id: 6, name: '联系我们', iconfont: 'icon-cust' }
-      ]
+      ],
+      isLogin: false,
+      user: ''
     }
   },
   created () {
@@ -62,13 +70,20 @@ export default {
   methods: {
     // 验证用户信息
     async checkUser () {
-      let { status, body } = this.$axios.get('/user')
+      let{ status, body } = await this.$axios.get('/user')
       if (status === 200) {
-        console.log(body)
+        this.isLogin = true
+        this.user = body
+      } else {
+        this.isLogin = false
       }
     },
     toLogin () {
       this.$router.push('/login')
+    },
+    toLoginOut () {
+      localStorage.removeItem('token')
+      this.checkUser()
     }
   }
 }
@@ -103,12 +118,12 @@ export default {
 
 .auth {
   margin: 30px 0;
-  span{
-  border-radius: 10px;
-  color: #fff;
-  padding: 8px 15px;
-  background: #21b97a;
-  font-size: 12px;
+  span {
+    border-radius: 10px;
+    color: #fff;
+    padding: 8px 15px;
+    background: #21b97a;
+    font-size: 12px;
   }
 }
 
@@ -150,9 +165,9 @@ export default {
     line-height: 30px;
   }
 }
-.add{
-  img{
-    width:100%;
+.add {
+  img {
+    width: 100%;
   }
 }
 </style>
