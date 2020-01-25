@@ -14,6 +14,13 @@ Vue.config.productionTip = false
 Vue.prototype.$axios = axios
 axios.defaults.baseURL = 'http://localhost:8080'
 // 配置axios的响应拦截器
+axios.interceptors.request.use(config => {
+  const { url } = config
+  if (url.startsWith('/user') && localStorage.getItem('token')) {
+    config.headers.authorization = localStorage.getItem('token')
+  }
+  return config
+})
 axios.interceptors.response.use(function (res) {
   return res.data
 })

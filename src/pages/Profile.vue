@@ -56,7 +56,17 @@ export default {
       ]
     }
   },
+  created () {
+    this.checkUser()
+  },
   methods: {
+    // 验证用户信息
+    async checkUser () {
+      let { status, body } = this.$axios.get('/user')
+      if (status === 200) {
+        console.log(body)
+      }
+    },
     toLogin () {
       this.$router.push('/login')
     }

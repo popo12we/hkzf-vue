@@ -57,12 +57,12 @@ export default {
   },
   methods: {
     async login () {
-      let { status, body: { token } } = await this.$axios.post('/user/login', {
+      let { status, body } = await this.$axios.post('/user/login', {
         username: this.username,
         password: this.password
       })
       if (status === 200) {
-        localStorage.setItem('token', token)
+        localStorage.setItem('token', body.token)
         this.$router.push('/home/profile')
       }
     }
