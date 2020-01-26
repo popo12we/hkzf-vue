@@ -11,9 +11,7 @@
 import { handlePickerData } from '../utils/Func'
 export default {
   props: {
-    isShow: Boolean,
     selectedLabel: String
-
   },
   data () {
     return {
@@ -23,7 +21,9 @@ export default {
       modeList: [],
       // 租金数据
       priceList: [],
-      queryObj: {}
+      queryObj: {},
+      // 处理高亮逻辑(子组件数据)
+      lightObj: {}
     }
   },
   created () {
@@ -63,6 +63,8 @@ export default {
     },
     areaHandle (area) {
       area.length === 3 ? (area[area.length - 1] === 'null' ? this.queryObj.area = area[area.length - 2] : this.queryObj.area = area[area.length - 1]) : this.queryObj.area = null
+      this.lightObj.area = true
+      this.$emit('clearLabel', this.lightObj)
       this.searchHouseList()
     },
     // 方式
@@ -79,6 +81,8 @@ export default {
     },
     modeHandle (mode) {
       this.queryObj.rentType = mode[0]
+      this.lightObj.mode = true
+      this.$emit('clearLabel', this.lightObj)
       this.searchHouseList()
     },
     // 租金
@@ -95,6 +99,8 @@ export default {
     },
     priceHandle (price) {
       this.queryObj.price = price[0]
+      this.lightObj.price = true
+      this.$emit('clearLabel', this.lightObj)
       this.searchHouseList()
     },
     // 筛选房源数据

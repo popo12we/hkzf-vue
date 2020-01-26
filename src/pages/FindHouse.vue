@@ -3,10 +3,10 @@
     <!-- 顶部tabbar -->
     <div class="tabbar">
       <div
-        class="tab"
-        v-for="item in tabs"
+        v-for="(item,index) in tabs"
         :key="item.id"
         @click="changeLabel(item.label)"
+        :class="{tab:true,green:(index===0&&glObj.area?true:'')||(index===1&&glObj.mode?true:'')||(index===2&&glObj.price?true:'')}"
       >{{item.label}}</div>
       <Picker :selectedLabel="selectedLabel" @getData="getData" @clearLabel="clearLabel"></Picker>
     </div>
@@ -52,7 +52,9 @@ export default {
       // 选中项
       selectedLabel: '',
       // 房屋列表
-      houseList: []
+      houseList: [],
+      // 处理高亮逻辑(父组件数据,根据他来判断)
+      glObj: {}
     }
   },
   methods: {
@@ -61,8 +63,11 @@ export default {
       this.selectedLabel = label
     },
     // 清空选项卡数据
-    clearLabel () {
+    clearLabel (data) {
       this.selectedLabel = ''
+      if (data) {
+        this.glObj = data
+      }
     },
     getData (data) {
       this.houseList = data
@@ -164,6 +169,9 @@ export default {
       color: #5aabfd;
       background: #e6f2ff;
     }
+  }
+  .green{
+    color:#3fc28c;
   }
 }
 </style>
