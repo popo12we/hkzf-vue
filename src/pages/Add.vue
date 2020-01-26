@@ -26,47 +26,51 @@
         <div class="rent-measure-title">建筑面积</div>
         <div class="rent-measure-mouth">㎡</div>
         <div class="rent-measure-input">
-          <input v-model="publish.price" type="text" placeholder="请输入建筑面积" />
+          <input v-model="publish.size" type="text" placeholder="请输入建筑面积" />
         </div>
       </div>
       <!-- 户型 -->
       <div class="choose-measure">
         <div class="choose-measure-name">户型</div>
-        <div class="choose-measure-write">
-          <i class="cubeic-arrow"></i>
-          <div>请选择</div>
+        <div class="choose-measure-write" @click="handleroomType">
+          <i class="cubeic-arrow" v-if="!rT"></i>
+          <div v-if="!rT">请选择</div>
+          <div  v-if="rT">{{rT}}</div>
         </div>
       </div>
       <!-- 楼层 -->
       <div class="floor">
         <div class="floor-name">所在楼层</div>
-        <div class="floor-write">
-          <i class="cubeic-arrow"></i>
-          <div>请选择</div>
+        <div class="floor-write" @click="handlefloor">
+         <i class="cubeic-arrow" v-if="!fl"></i>
+          <div v-if="!fl">请选择</div>
+          <div  v-if="fl">{{fl}}</div>
         </div>
       </div>
-      <!-- 小区名称 -->
+      <!-- 朝向 -->
       <div class="direction">
         <div class="direction-name">朝向</div>
-        <div class="direction-write">
-          <i class="cubeic-arrow"></i>
-          <div>请选择</div>
+        <div class="direction-write" @click="handleoriented">
+          <i class="cubeic-arrow" v-if="!ore"></i>
+          <div v-if="!ore">请选择</div>
+          <div  v-if="ore">{{ore}}</div>
         </div>
       </div>
       <!-- 房屋标题 -->
       <div class="house-title">房屋标题</div>
       <div class="house-title-input">
-        <input type="text" v-model="publish.description" placeholder="请输入标题（例如：整租 小区名 2室 5000元）" />
+        <input type="text" v-model="publish.title" placeholder="请输入标题（例如：整租 小区名 2室 5000元）" />
       </div>
       <!-- 图片上传 -->
       <cube-upload :simultaneous-uploads="3" @file-submitted="fileSubmitted" />
-       <div class="btn" @click="publishData">发布房源</div>
+      <div class="btn" @click="publishData">发布房源</div>
     </div>
   </div>
 </template>
 
 <script>
 import TopHeader from '../components/TopHeader'
+import { handlePickerData } from '../utils/Func'
 export default {
   components: {
     TopHeader
@@ -104,6 +108,12 @@ export default {
       communityName: JSON.parse(localStorage.getItem('searchObj')).name || '',
       // 处理图片上传数组
       tempList: [],
+      // 显示在页面中的房屋类型
+      rT: '',
+      // 显示在页面中的楼层
+      fl: '',
+      // 显示在页面中的朝向
+      ore: '',
       // 请求数据
       publish: {
         // 小区名称
@@ -124,6 +134,62 @@ export default {
   methods: {
     goToSearch () {
       this.$router.push('/search')
+    },
+    // 显示朝向
+    handleoriented () {
+      this.orientedData = handlePickerData(this.orientedData)
+      if (!this.orientedPicker) {
+        this.orientedPicker = this.$createCascadePicker({
+          title: '朝向',
+          data: this.orientedData,
+          onSelect: this.selectoriented
+        })
+      }
+      this.orientedPicker.show()
+    },
+    // 处理确定朝向
+    selectoriented (oriented) {
+      this.publish.oriented = oriented[0]
+      let result = this.orientedData.filter(item => item.value === oriented[0])
+      this.ore = result[0].label
+    },
+
+    // 显示楼层
+    handlefloor () {
+      this.floorData = handlePickerData(this.floorData)
+      if (!this.floorPicker) {
+        this.floorPicker = this.$createCascadePicker({
+          title: '楼层',
+          data: this.floorData,
+          onSelect: this.selectfloor
+        })
+      }
+      this.floorPicker.show()
+    },
+    // 处理确定楼层
+    selectfloor (floor) {
+      this.publish.floor = floor[0]
+      let result = this.floorData.filter(item => item.value === floor[0])
+      this.fl = result[0].label
+    },
+
+    // 显示房屋类型
+    handleroomType () {
+      this.roomTypeData = handlePickerData(this.roomTypeData)
+      if (!this.roomTypePicker) {
+        this.roomTypePicker = this.$createCascadePicker({
+          title: '房屋类型',
+          data: this.roomTypeData,
+          onSelect: this.selectroomType
+        })
+      }
+      this.roomTypePicker.show()
+    },
+    // 处理确定房屋类型
+    selectroomType (roomType) {
+      this.publish.roomType = roomType[0]
+      let result = this.roomTypeData.filter(item => item.value === roomType[0])
+      this.rT = result[0].label
     },
     async fileSubmitted (e) {
       const form = new FormData()
@@ -318,14 +384,13 @@ export default {
     }
   }
   .btn {
-  width: 100%;
-  height: 45px;
-  line-height: 45px;
-  background-color: #21b97a;
-  font-size: 16px;
-  color:#fff;
-  text-align: center;
+    width: 100%;
+    height: 45px;
+    line-height: 45px;
+    background-color: #21b97a;
+    font-size: 16px;
+    color: #fff;
+    text-align: center;
+  }
 }
-}
-
 </style>
