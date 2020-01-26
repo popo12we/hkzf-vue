@@ -30,7 +30,29 @@
       </div>
       <!-- 选择面积 -->
       <div class="choose-measure">
-        请选择<i class="cubeic-arrow"></i>
+        请选择
+        <i class="cubeic-arrow"></i>
+      </div>
+      <!-- 小区名称 -->
+      <div class="floor">
+        <div class="floor-name">所在楼层</div>
+        <div class="floor-write">
+          <i class="cubeic-arrow"></i>
+          <div>请选择</div>
+        </div>
+      </div>
+      <!-- 小区名称 -->
+      <div class="direction">
+        <div class="direction-name">朝向</div>
+        <div class="direction-write">
+          <i class="cubeic-arrow"></i>
+          <div>请选择</div>
+        </div>
+      </div>
+      <!-- 房屋标题 -->
+      <div class="house-title">房屋标题</div>
+      <div class="house-title-input">
+        <input type="text" placeholder="请输入标题（例如：整租 小区名 2室 5000元）" />
       </div>
     </div>
   </div>
@@ -139,6 +161,66 @@ export default {
     line-height: 44px;
     border-bottom: 1px solid #eee;
     text-align: center;
+  }
+  .floor {
+    height: 44px;
+    line-height: 44px;
+    border-bottom: 1px solid #eee;
+    .floor-name,
+    .floor-write {
+      float: left;
+      width: 50%;
+    }
+    .floor-write {
+      text-align: right;
+      > div,
+      i {
+        float: right;
+      }
+    }
+  }
+  .direction {
+    height: 44px;
+    line-height: 44px;
+    border-bottom: 1px solid #eee;
+    .direction-name,
+    .direction-write {
+      float: left;
+      width: 50%;
+    }
+    .direction-name {
+      letter-spacing: 2em;
+    }
+    .direction-write {
+      text-align: right;
+      > div,
+      i {
+        float: right;
+      }
+    }
+  }
+  .house-title {
+    height: 40px;
+    line-height: 40px;
+    border-bottom: 1px solid #eee;
+  }
+  .house-title-input {
+    height: 40px;
+    line-height: 40px;
+    input {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    input::-webkit-input-placeholder {
+      color: #ccc;
+    }
+    input::-moz-input-placeholder {
+      color: #ccc;
+    }
+    input::-ms-input-placeholder {
+      color: #ccc;
+    }
   }
 }
 </style>
