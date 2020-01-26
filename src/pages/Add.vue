@@ -7,7 +7,7 @@
       <!-- 小区名称 -->
       <div class="add-area-name">
         <div class="area-name">小区名称</div>
-        <div class="area-write">
+        <div class="area-write" @click="goToSearch">
           <i class="cubeic-arrow"></i>
           <div>请输入小区名称</div>
         </div>
@@ -63,6 +63,11 @@ import TopHeader from '../components/TopHeader'
 export default {
   components: {
     TopHeader
+  },
+  methods: {
+    goToSearch () {
+      this.$router.push('/search')
+    }
   }
 }
 </script>
