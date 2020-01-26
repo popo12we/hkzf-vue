@@ -43,10 +43,11 @@ export default {
     searchArea (val) {
       this.fn(val)
     },
-    chooseSearchList (value, name) {
+    chooseSearchList (name, value) {
+      console.log(name, value)
       let obj = {
-        value,
-        name
+        name,
+        value
       }
       obj = JSON.stringify(obj)
       localStorage.setItem('searchObj', obj)

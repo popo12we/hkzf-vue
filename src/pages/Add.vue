@@ -9,7 +9,8 @@
         <div class="area-name">小区名称</div>
         <div class="area-write" @click="goToSearch">
           <i class="cubeic-arrow"></i>
-          <div>请输入小区名称</div>
+          <div v-if="!communityName">请输入小区名称</div>
+           <div v-if="communityName">{{communityName}}</div>
         </div>
       </div>
       <!-- 租金 -->
@@ -17,7 +18,7 @@
         <div class="rent-money-title">租金</div>
         <div class="rent-money-mouth">￥/月</div>
         <div class="rent-money-input">
-          <input type="text" placeholder="请输入租金/月" />
+          <input v-model="publish.price" type="text" placeholder="请输入租金/月" />
         </div>
       </div>
       <!-- 面积 -->
@@ -25,7 +26,7 @@
         <div class="rent-measure-title">建筑面积</div>
         <div class="rent-measure-mouth">㎡</div>
         <div class="rent-measure-input">
-          <input type="text" placeholder="请输入建筑面积" />
+          <input v-model="publish.price" type="text" placeholder="请输入建筑面积" />
         </div>
       </div>
       <!-- 选择面积 -->
@@ -54,7 +55,12 @@
       <div class="house-title-input">
         <input type="text" placeholder="请输入标题（例如：整租 小区名 2室 5000元）" />
       </div>
+      <!-- 图片上传 -->
+      <cube-upload
+  :simultaneous-uploads="3"
+  @file-submitted="fileSubmitted"/>
     </div>
+    <button @click="publishData">发布房源</button>
   </div>
 </template>
 
@@ -64,9 +70,49 @@ export default {
   components: {
     TopHeader
   },
+  data () {
+    return {
+      communityName: JSON.parse(localStorage.getItem('searchObj')).name || '',
+      // 处理图片上传数组
+      tempList: [],
+      // 请求数据
+      publish: {
+        // 小区名称
+        community: JSON.parse(localStorage.getItem('searchObj')).value,
+        title: '',
+        description: '',
+        oriented: '',
+        supporting: '',
+        price: '',
+        roomType: '',
+        size: '',
+        floor: '',
+        // 处理图片数据
+        houseImg: ''
+      }
+    }
+  },
   methods: {
     goToSearch () {
       this.$router.push('/search')
+    },
+    async fileSubmitted (e) {
+      const form = new FormData()
+      this.tempList.push(e)
+      this.tempList.forEach(item => {
+      // 当前接口中要求上传文件的键名为：file
+        form.append('file', item.file)
+      })
+      const res = await this.$axios.post('/houses/image', form, {
+        headers: {
+          'content-type': 'multipart/form-data'
+        }
+      })
+      this.publish.houseImg = res.body.join('|')
+    },
+    async publishData () {
+      const res = await this.$axios.post('/user/houses', this.publish)
+      console.log(res)
     }
   }
 }
