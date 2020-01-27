@@ -37,23 +37,30 @@ export default {
       roomTypeList: [],
       // 几室高亮数据
       roomTypetLightIndexList: [],
+      handleRoomTypeResult: '',
       // 朝向
       orientedList: [],
       // 朝向高亮数据
       orientedLightIndexList: [],
+      handleOrientedResult: '',
       // 楼层
       floorList: [],
       // 楼层高亮数据
       floorLightIndexList: [],
+      handleFloorResult: '',
       // 亮点
       characteristicList: [],
       // 楼层高亮数据
-      characterLightIndexList: []
+      characterLightIndexList: [],
+      handleCharacterResult: '',
+      // 请求数据
+      dataArray: []
 
     }
   },
   created () {
     this.getCondition()
+    this.dataArray = []
   },
   methods: {
     // 拿到房租获取条件
@@ -73,22 +80,36 @@ export default {
     },
     // 处理几室高亮
     handleRoomType (index) {
-      handlePickerMore(index, this.roomTypetLightIndexList)
+      this.handleRoomTypeResult = handlePickerMore(index, this.roomTypetLightIndexList)
     },
     // 处理朝向高亮
     handleoriented (index) {
-      handlePickerMore(index, this.orientedLightIndexList)
+      this.handleOrientedResult = handlePickerMore(index, this.orientedLightIndexList)
     },
     // 处理楼层高亮
     handlefloor (index) {
-      handlePickerMore(index, this.floorLightIndexList)
+      this.handleFloorResult = handlePickerMore(index, this.floorLightIndexList)
     },
     // 处理亮点高亮
     handlecharacter (index) {
-      handlePickerMore(index, this.characterLightIndexList)
+      this.handleCharacterResult = handlePickerMore(index, this.characterLightIndexList)
     },
     sure () {
-
+      for (let i = 0; i < this.handleRoomTypeResult.length; i++) {
+        this.dataArray.push(this.roomTypeList[this.handleRoomTypeResult[i]].value)
+      }
+      for (let i = 0; i < this.handleOrientedResult.length; i++) {
+        this.dataArray.push(this.orientedList[this.handleOrientedResult[i]].value)
+      }
+      for (let i = 0; i < this.handleFloorResult.length; i++) {
+        this.dataArray.push(this.floorList[this.handleFloorResult[i]].value)
+      }
+      for (let i = 0; i < this.handleCharacterResult.length; i++) {
+        this.dataArray.push(this.characteristicList[this.handleCharacterResult[i]].value)
+      }
+      this.dataArray = this.dataArray.join(',')
+      this.$emit('closePickMore')
+      console.log(this.dataArray)
     }
   }
 }

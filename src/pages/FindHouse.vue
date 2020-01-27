@@ -32,7 +32,7 @@
         </div>
       </div>
     </div>
-    <PickerMore v-if="selectedLabel==='筛选'"></PickerMore>
+    <PickerMore v-if="selectedLabel==='筛选'" @closePickMore="hidePickerMore"></PickerMore>
     <div class="mask" @click="hidePickerMore" v-if="selectedLabel==='筛选'"></div>
   </div>
 </template>
