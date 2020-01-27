@@ -109,7 +109,7 @@ export default {
       }
       this.dataArray = this.dataArray.join(',')
       this.$emit('closePickMore')
-      console.log(this.dataArray)
+      this.$store.dispatch('sendOne', (this.dataArray))
     }
   }
 }

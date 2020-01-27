@@ -5,11 +5,17 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    more: ''
   },
   mutations: {
+    // 购物车添加
+    send (state, payload) {
+      state.more = payload
+    }
   },
   actions: {
-  },
-  modules: {
+    sendOne (context, obj) {
+      context.commit('send', obj)
+    }
   }
 })

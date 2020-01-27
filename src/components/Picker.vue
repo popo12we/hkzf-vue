@@ -21,7 +21,9 @@ export default {
       modeList: [],
       // 租金数据
       priceList: [],
-      queryObj: {},
+      queryObj: {
+        more: this.$store.state.more
+      },
       // 处理高亮逻辑(子组件数据)
       lightObj: {}
     }
@@ -129,6 +131,12 @@ export default {
           this.showPricePicker()
         }
       }
+    },
+    '$store.state.more' (newval) {
+      this.queryObj.more = newval
+      this.lightObj.more = true
+      this.$emit('clearLabel', this.lightObj)
+      this.searchHouseList()
     }
   }
 }
