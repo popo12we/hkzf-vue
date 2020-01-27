@@ -173,7 +173,8 @@ export default {
     // 查询房源数据
     async getHouseData (value) {
       const toast = this.$createToast({
-        txt: '加载中'
+        txt: '加载中',
+        time: 0
       })
       toast.show()
       let { status, body } = await this.$axios.get(

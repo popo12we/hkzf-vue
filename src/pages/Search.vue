@@ -44,7 +44,6 @@ export default {
       this.fn(val)
     },
     chooseSearchList (name, value) {
-      console.log(name, value)
       let obj = {
         name,
         value

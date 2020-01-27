@@ -206,8 +206,7 @@ export default {
       this.publish.houseImg = res.body.join('|')
     },
     async publishData () {
-      const res = await this.$axios.post('/user/houses', this.publish)
-      console.log(res)
+      await this.$axios.post('/user/houses', this.publish)
     }
   }
 }

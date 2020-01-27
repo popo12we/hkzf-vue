@@ -150,7 +150,6 @@ export default {
       let { body, status } = await this.$axios.get('/home/news')
       if (status === 200) {
         this.lastNewsList = body
-        console.log(this.lastNewsList)
       }
     },
     goToList () {
