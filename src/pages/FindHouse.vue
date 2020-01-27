@@ -1,5 +1,5 @@
 <template>
-  <div class="findhouse">
+  <div :class="{findhouse:true,ov:selectedLabel==='筛选'}">
     <!-- 顶部tabbar -->
     <div class="tabbar">
       <div
@@ -14,7 +14,7 @@
     <div class="houseDataList">
       <div class="house" v-for="(item,index) in houseList" :key="index">
         <div class="imgWrap">
-         <img class="img" :src="'http://localhost:8080'+`${item.houseImg}`" alt="" />
+          <img class="img" :src="'http://localhost:8080'+`${item.houseImg}`" alt />
         </div>
         <div class="content">
           <h3 class="title">{{item.title}}</h3>
@@ -32,14 +32,18 @@
         </div>
       </div>
     </div>
+    <PickerMore v-if="selectedLabel==='筛选'"></PickerMore>
+    <div class="mask" @click="hidePickerMore" v-if="selectedLabel==='筛选'"></div>
   </div>
 </template>
 
 <script>
 import Picker from '../components/Picker'
+import PickerMore from '../components/PickerMore'
 export default {
   components: {
-    Picker
+    Picker,
+    PickerMore
   },
   data () {
     return {
@@ -71,12 +75,19 @@ export default {
     },
     getData (data) {
       this.houseList = data
+    },
+    // 点击除导航栏的其他地方,隐藏Pickermore
+    hidePickerMore () {
+      this.selectedLabel = ''
     }
   }
 }
 </script>
 
 <style lang="less" scoped>
+.ov {
+  overflow: hidden;
+}
 .findhouse {
   height: 100%;
   .tab {
@@ -92,7 +103,7 @@ export default {
     font-size: 16px;
   }
   .houseDataList {
-    padding-top:35px;
+    padding-top: 35px;
     padding-bottom: 50px;
     .house {
       height: 120px;
@@ -170,8 +181,17 @@ export default {
       background: #e6f2ff;
     }
   }
-  .green{
-    color:#3fc28c;
+  .green {
+    color: #3fc28c;
+  }
+  .mask {
+    position: fixed;
+    z-index: 2;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
   }
 }
 </style>
