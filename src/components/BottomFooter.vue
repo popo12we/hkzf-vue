@@ -44,7 +44,7 @@
   text-align: center;
   position: fixed;
   bottom: 0;
-  z-index: 999;
+  z-index: 990;
   background-color: #f8f8f8;
   font-size: 20px;
   ul {

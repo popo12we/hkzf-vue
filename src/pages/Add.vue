@@ -383,7 +383,6 @@ export default {
     }
   }
   .btn {
-    width: 100%;
     height: 45px;
     line-height: 45px;
     background-color: #21b97a;

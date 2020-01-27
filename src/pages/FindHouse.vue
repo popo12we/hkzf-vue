@@ -186,7 +186,7 @@ export default {
   }
   .mask {
     position: fixed;
-    z-index: 2;
+    z-index: 993;
     left: 0;
     right: 0;
     top: 0;
