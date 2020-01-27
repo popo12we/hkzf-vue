@@ -3,25 +3,25 @@
     <div class="roomType">
       <h3>户型</h3>
       <ul>
-        <li v-for="(item,index) in roomTypeList" :key="item.value" @click="handle(index)" :class='{"active":index===roomTypetLightIndex}'>{{item.label}}</li>
+        <li v-for="(item,index) in roomTypeList" :key="item.value" :class="{'active':roomTypetLightIndexList.some(item => item === index)}" @click="handleRoomType(index)">{{item.label}}</li>
       </ul>
     </div>
     <div class="oriented">
       <h3>朝向</h3>
       <ul>
-        <li v-for="item in orientedList" :key="item.value">{{item.label}}</li>
+        <li v-for="(item,index) in orientedList" :key="item.value" :class="{'active':orientedLightIndexList.some(item => item === index)}" @click="handleoriented(index)">{{item.label}}</li>
       </ul>
     </div>
     <div class="floor">
       <h3>楼层</h3>
       <ul>
-        <li v-for="item in floorList" :key="item.value">{{item.label}}</li>
+        <li v-for="(item,index) in floorList" :key="item.value" :class="{'active':floorLightIndexList.some(item => item === index)}" @click="handlefloor(index)">{{item.label}}</li>
       </ul>
     </div>
     <div class="characteristic">
       <h3>亮点</h3>
       <ul>
-        <li v-for="item in characteristicList" :key="item.value">{{item.label}}</li>
+        <li v-for="(item,index) in characteristicList" :key="item.value" :class="{'active':characterLightIndexList.some(item => item === index)}" @click="handlecharacter(index)">{{item.label}}</li>
       </ul>
     </div>
     <div class="btn" @click="sure">确认</div>
@@ -29,18 +29,27 @@
 </template>
 
 <script>
+import { handlePickerMore } from '../utils/Func'
 export default {
   data () {
     return {
       // 几室
       roomTypeList: [],
+      // 几室高亮数据
+      roomTypetLightIndexList: [],
       // 朝向
       orientedList: [],
+      // 朝向高亮数据
+      orientedLightIndexList: [],
       // 楼层
       floorList: [],
+      // 楼层高亮数据
+      floorLightIndexList: [],
       // 亮点
       characteristicList: [],
-      roomTypetLightIndex: -1
+      // 楼层高亮数据
+      characterLightIndexList: []
+
     }
   },
   created () {
@@ -62,8 +71,21 @@ export default {
         this.characteristicList = body.characteristic
       }
     },
-    handle (index) {
-      this.roomTypetLightIndex = index
+    // 处理几室高亮
+    handleRoomType (index) {
+      handlePickerMore(index, this.roomTypetLightIndexList)
+    },
+    // 处理朝向高亮
+    handleoriented (index) {
+      handlePickerMore(index, this.orientedLightIndexList)
+    },
+    // 处理楼层高亮
+    handlefloor (index) {
+      handlePickerMore(index, this.floorLightIndexList)
+    },
+    // 处理亮点高亮
+    handlecharacter (index) {
+      handlePickerMore(index, this.characterLightIndexList)
     },
     sure () {
 
@@ -82,7 +104,6 @@ export default {
   overflow: scroll;
   background-color: #fff;
   z-index: 999;
-  margin-bottom: 50px;
   > div {
     margin: 0 15px;
     h3 {

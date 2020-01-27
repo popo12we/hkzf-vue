@@ -61,3 +61,13 @@ export const handlePickerData = obj => {
 
   return obj
 }
+
+export const handlePickerMore = (index, arr) => {
+  let idx = arr.findIndex(item => item === index)
+  if (idx === -1) {
+    arr.push(index)
+  } else {
+    arr.splice(idx, 1)
+  }
+  return arr
+}
