@@ -71,7 +71,6 @@ export default {
         }
       })
       if (status === 200) {
-        console.log(body)
         this.roomTypeList = body.roomType
         this.orientedList = body.oriented
         this.floorList = body.floor
