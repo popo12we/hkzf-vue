@@ -6,7 +6,7 @@
         v-for="(item,index) in tabs"
         :key="item.id"
         @click="changeLabel(item.label)"
-        :class="{tab:true,green:(index===0&&glObj.area?true:'')||(index===1&&glObj.mode?true:'')||(index===2&&glObj.price?true:'')||(index===3&&glObj.more?true:'')}"
+        :class="{tab:true,green:(index===0&&glObj.area?true:'')||(index===1&&glObj.mode?true:'')||(index===2&&glObj.price?true:'')||(index===3&&glObj.more&&$store.state.more?true:'')}"
       >{{item.label}}</div>
       <Picker :selectedLabel="selectedLabel" @getData="getData" @clearLabel="clearLabel"></Picker>
     </div>
