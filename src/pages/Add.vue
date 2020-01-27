@@ -72,6 +72,12 @@
 import TopHeader from '../components/TopHeader'
 import { handlePickerData } from '../utils/Func'
 export default {
+  created () {
+    let token = localStorage.getItem('token')
+    if (!token) {
+      this.$router.push('/login')
+    }
+  },
   components: {
     TopHeader
   },
